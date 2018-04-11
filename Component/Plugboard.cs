@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Components.Interfaces;
@@ -53,6 +52,24 @@ namespace Components
             return letter;
         }
 
+        public char ConvertLetter(int i)
+        {
+            // convert i to letter
+            char letter;
+            char initletter = (char)(Convert.ToByte('a') + i);
+
+            if (_wiring.ContainsValue(initletter))
+            {
+                letter = _wiring[initletter];
+            }
+            else
+            {
+                letter = initletter;
+            }
+
+            return letter;
+        }
+
         public Dictionary<char, char> GetWiring()
         {
             var wiring = new Dictionary<char, char>();
@@ -69,6 +86,7 @@ namespace Components
 
             NumberPairs++;
             _wiring.Add(char1, char2);
+            _wiring.Add(char2, char1);
         }
 
         public void RemoveWiring(char char1)

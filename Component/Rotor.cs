@@ -58,13 +58,20 @@ namespace Components
         public char ReverseConvertLetter(char c)
         {
             int i = Array.IndexOf(_wiring, c);
-            char convertedChar = (char)(i + Convert.ToByte('a'));
+            char convertedChar = (char)(i + Offset + Convert.ToByte('a'));
             return convertedChar;
         }
 
         public char ReverseConvertLetter(int i)
         {
-            throw new Exception();
+            //char convertedChar = (char)(i + Offset + Convert.ToByte('a'));
+
+            int characterNumber = Convert.ToByte('a') + (i + Offset) % 26;
+            char convertedChar = (char)characterNumber;  // give T
+
+            int locOnWheel = Array.IndexOf(_wiring, convertedChar); // where is T
+            char initialChar = (char)(Convert.ToByte('a') + locOnWheel);
+            return initialChar;
         }
 
         public int GetNextRotorsIndex(char convertedChar)
@@ -73,6 +80,17 @@ namespace Components
             int index = (i + (26 - Offset)) % 26;
 
             return index;
+        }
+
+        /// <summary>
+        /// To Be Used on return trip
+        /// </summary>
+        public int ReverseGetNextRotorsIndex(char initialChar)
+        {
+            int position = Convert.ToByte(initialChar) - Convert.ToByte('a');
+            int location = (position + (26 - Offset)) % 26;
+
+            return location;
         }
 
         public int GetDialOffset()

@@ -101,5 +101,12 @@ namespace Components
             char c = Wiring.ElementAt(i).Value;
             return c;
         }
+
+        public int GetNextRotorsIndex(char c)
+        {
+            int index = Convert.ToByte(c) - Convert.ToByte('a');
+
+            return index;
+        }
     }
 }
