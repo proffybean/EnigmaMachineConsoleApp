@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="EnigmaMachine.cs" />
+    <Compile Include="Interfaces\IEnigmaMachine.cs" />
     <Compile Include="Interfaces\IPlugboard.cs" />
     <Compile Include="Interfaces\IReflector.cs" />
     <Compile Include="Interfaces\IRotor.cs" />

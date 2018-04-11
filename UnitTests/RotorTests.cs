@@ -155,7 +155,7 @@ namespace UnitTests
         public void ConvertLetter_ShouldGetLetterAndRotate_WhenConvertingByIndex()
         {
             // Arrange
-            Rotor rotor = new Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO".ToLower());
+            Rotor rotor = new Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO".ToLower(), true, 21);
 
             // Act
             rotor.SetDial('z');
@@ -174,7 +174,7 @@ namespace UnitTests
         public void ConvertLetter_ShouldConvert_WhenConvertingByLetterA()
         {
             // Arrange
-            Rotor rotor = new Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO".ToLower()); // rotor 3
+            Rotor rotor = new Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO".ToLower(), true, 21); // rotor 3
 
             // Act
             rotor.SetDial('z');
@@ -216,7 +216,7 @@ namespace UnitTests
         public void ReverseConvertLetter_ShouldConvertOnReverse_ForOneChar()
         {
             // Arrange
-            Rotor rotor = new Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO".ToLower()); // TODO: move to Rotor3 constant
+            Rotor rotor = new Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO".ToLower(), true, 21); // TODO: move to Rotor3 constant
 
             // Act
             rotor.SetDial('z');

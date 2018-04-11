@@ -7,23 +7,29 @@ using Components.Interfaces;
 
 namespace Components
 {
+    public delegate void AdvanceHandler(object sender, AdvanceEventArgs e);
+
     /// <summary>
     /// Rotor wiring found from https://en.wikipedia.org/wiki/Enigma_rotor_details
     /// </summary>
     public class Rotor : IRotor
     {
         private Dictionary<char, char> _wiring2;
+        public event AdvanceHandler AdvanceAdjacentRotor;
         private char[] _wiring;
         private int _dialOffset;
-        public bool rotate;
+        private bool _rotate;
+        private int _adjacentRotorAdvanceOffset;
 
-        public Rotor(string rotorMapping)
+        public Rotor(string rotorMapping, bool rotate, int AdjacentRotorAdvanceOffset)
         {
             InitWiring(rotorMapping);
             InitWiring2(rotorMapping);
+            _rotate = rotate;
+            _adjacentRotorAdvanceOffset = AdjacentRotorAdvanceOffset;
         }
 
-        public Rotor() : this("BDFHJLCPRTXVZNYEIWGAKMUSQO".ToLower()) { }
+        public Rotor() : this("BDFHJLCPRTXVZNYEIWGAKMUSQO".ToLower(), false, 0) { }
 
         public int Offset
         {
@@ -38,7 +44,7 @@ namespace Components
             }
         }
 
-        public char ConvertLetter(char c)
+        public char ConvertLetter(char c) // TODO: make lowercase c.ToLower();
         {
             //ASCIIEncoding.ASCII.GetBytes(c);
             //int i = Encoding.ASCII.GetBytes(c);
@@ -48,7 +54,7 @@ namespace Components
 
         public char ConvertLetter(int i)
         {
-            if (rotate) { Rotate(); }
+            if (_rotate) { Rotate(); }
             //int index = (i + (26 - Offset)) % 26;
             int index = (i + Offset) % 26;
             char letter = _wiring[index];
@@ -98,8 +104,17 @@ namespace Components
             return this.Offset;
         }
 
+        public void RotateHandler(object sender, AdvanceEventArgs e)
+        {
+            Rotate();
+        }
+
         public void Rotate()
         {
+            if (Offset == _adjacentRotorAdvanceOffset)
+            {
+                AdvanceAdjacentRotor(this, new AdvanceEventArgs { message = "I'm advancing", character = _wiring[22] });
+            }
             Offset = (Offset + 1) % 26;
         }
 
@@ -145,5 +160,11 @@ namespace Components
                 _wiring[i] = rotorMapping[i];
             }
         }
+    }
+
+    public class AdvanceEventArgs : EventArgs
+    {
+        public string message;
+        public char character;
     }
 }

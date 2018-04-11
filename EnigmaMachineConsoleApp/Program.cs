@@ -10,61 +10,16 @@ namespace EnigmaMachineConsoleApp
 {
     class Program
     {
-        public static Plugboard plugboard;
-        public static Rotor rotor3;
-        public static Rotor rotor2;
-        public static Rotor rotor1;
-        public static Reflector reflector;
-
         static void Main(string[] args)
         {
-            plugboard = new Plugboard();
-            plugboard.SetWiring('h', 's');
-            plugboard.SetWiring('a', 'e');
-            plugboard.SetWiring('d', 'j');
-            plugboard.SetWiring('p', 'q');
-            plugboard.SetWiring('g', 'm');
-
-
-            rotor3 = new Rotor(rotorIII);
-            rotor3.rotate = true;
-            rotor2 = new Rotor(rotorII);
-            rotor2.rotate = false;
-            rotor1 = new Rotor(rotorI);
-            rotor1.rotate = false;
-
-            reflector = new Reflector();
-
-            rotor3.SetDial('d');
-            rotor2.SetDial('c');
-            rotor1.SetDial('b');
-
-            //char lightBoardChar = ConvertCharacter('h');
-            //lightBoardChar = ConvertCharacter('e');
-
-            StringBuilder sb = new StringBuilder();
-            sb.Append(ConvertCharacter('h'));
-            sb.Append(ConvertCharacter('e'));
-            sb.Append(ConvertCharacter('l'));
-            sb.Append(ConvertCharacter('l'));
-            sb.Append(ConvertCharacter('o'));
-            string encrypted = sb.ToString();
-
-            rotor3.SetDial('d');
-            rotor2.SetDial('c');
-            rotor1.SetDial('b');
-            sb.Clear();
-            foreach(char c in encrypted.ToCharArray())
-            {
-                sb.Append(ConvertCharacter(c));
-            }
-            //sb.Append(ConvertCharacter('z'));
-            //sb.Append(ConvertCharacter('f'));
-            //sb.Append(ConvertCharacter('e'));
-            //sb.Append(ConvertCharacter('b'));
-            //sb.Append(ConvertCharacter('m'));
-            string text = sb.ToString();
-
+            EnigmaMachine enigmaMachine = new EnigmaMachine();
+            enigmaMachine.SetPlugboardPair('h', 's');
+            enigmaMachine.SetPlugboardPair('a', 'e');
+            enigmaMachine.SetPlugboardPair('d', 'j');
+            enigmaMachine.SetPlugboardPair('p', 'q');
+            enigmaMachine.SetPlugboardPair('g', 'm');
+            enigmaMachine.SetRotorDials('a', 'a', 'z');
+            Console.WriteLine(enigmaMachine.Encode("hello") ); 
         }
 
         public static char ConvertCharacter(char c)
