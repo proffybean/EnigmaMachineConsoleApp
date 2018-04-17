@@ -10,7 +10,7 @@ namespace Components.Interfaces
     {
         Dictionary<char, char> GetWiring();
         void SetWiring(char char1, char char2);
-        void RemoveWiring(char char1);
+        void RemoveWiring(char char1, char char2);
         int NumberPairs { get; set; }
         char ConvertLetter(char c);
     }

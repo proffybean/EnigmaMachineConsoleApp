@@ -36,8 +36,10 @@ namespace Components
         {
             StringBuilder sb = new StringBuilder();
 
-            foreach (char c in s.ToCharArray())
+            foreach (char c in s.ToLower().ToCharArray())
             {
+                if (!Char.IsLetter(c))
+                    continue;
                 sb.Append(ConvertCharacter(c));
             }
 

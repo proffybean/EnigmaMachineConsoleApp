@@ -71,7 +71,7 @@ namespace UnitTests
             var wiring = plugboard.GetWiring();
 
             // Assert
-            Assert.AreEqual(1, wiring.Count);
+            Assert.AreEqual(2, wiring.Count);
         }
 
         [TestMethod]
@@ -86,7 +86,7 @@ namespace UnitTests
             var wiring = plugboard.GetWiring();
 
             // Assert
-            Assert.AreEqual(1, wiring.Count);
+            Assert.AreEqual(2, wiring.Count);
             Assert.AreEqual('i', wiring['a']);
         }
 
@@ -116,9 +116,15 @@ namespace UnitTests
         {
             // Arrange
             Plugboard plugboard = new Plugboard();
+            int initNumPairs = plugboard.NumberPairs;
 
-            // Act Assert
-            Assert.ThrowsException<ArgumentException>( () => plugboard.RemoveWiring('a'));
+            // Act
+            plugboard.RemoveWiring('a', 'b');
+            //Assert.ThrowsException<ArgumentException>( () => plugboard.RemoveWiring('a'));
+
+            // Assert
+            Assert.IsTrue(0 == plugboard.NumberPairs);
+
         }
 
         [TestMethod]
@@ -130,10 +136,10 @@ namespace UnitTests
 
             // Act
             int initNumberOfPairs = plugboard.NumberPairs;
-            plugboard.RemoveWiring('b');
+            plugboard.RemoveWiring('b', 'x');
 
             // Act Assert
-            Assert.IsTrue(1 == initNumberOfPairs);
+            Assert.IsTrue(2 == initNumberOfPairs);
             Assert.IsTrue(0 == plugboard.NumberPairs);
         }
 
@@ -145,10 +151,10 @@ namespace UnitTests
             plugboard.SetWiring('b', 'x');
 
             // Act Assert
-            Assert.ThrowsException<ArgumentException>( () => plugboard.RemoveWiring('c'));
+            plugboard.RemoveWiring('c', 'x');
 
             // Assert 
-            Assert.IsTrue(1 == plugboard.NumberPairs);
+            Assert.IsTrue(2 == plugboard.GetWiring().Count);
         }
 
 
@@ -174,6 +180,26 @@ namespace UnitTests
 
             // Assert
             Assert.AreEqual('f', plugboard.ConvertLetter('f'));
+        }
+
+
+        [TestMethod]
+        public void ResetWiring_ShouldRemoveAllPairs()
+        {
+            // Arrange
+            Plugboard plugboard = new Plugboard();
+            plugboard.SetWiring('a', 'k');
+            plugboard.SetWiring('j', 'z');
+            plugboard.SetWiring('d', 'f');
+            int initNumOfWiring = plugboard.NumberPairs;
+
+            // Act
+            plugboard.ResetWiring();
+
+            // Assert
+            Assert.AreEqual(6, initNumOfWiring);
+            Assert.AreEqual(0, plugboard.NumberPairs);
+            Assert.AreEqual(0, plugboard.GetWiring().Count);
         }
 
 

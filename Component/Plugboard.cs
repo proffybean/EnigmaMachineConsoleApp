@@ -8,7 +8,7 @@ namespace Components
 {
     public class Plugboard : IPlugboard
     {
-        const int TotalNumberOfPairs = 10;
+        const int TotalNumberOfPairs = 20;
         private int _numberPairs;
         private Dictionary<char, char> _wiring;
 
@@ -20,7 +20,7 @@ namespace Components
 
         public int NumberPairs
         {
-            get { return _numberPairs; }
+            get { return _wiring.Count; }
             set
             {
                 if (_numberPairs >= TotalNumberOfPairs)
@@ -79,24 +79,91 @@ namespace Components
 
         public void SetWiring(char char1, char char2)
         {
-            if (_wiring.ContainsKey(char1))
+            char outChar; 
+
+            if (_wiring.TryGetValue(char1, out outChar))
             {
-                RemoveWiring(char1);
+                RemoveWiring(char1, outChar);
             }
 
-            NumberPairs++;
+            //if (_wiring.ContainsKey(char1))
+            //{
+            //    RemoveWiring(char1, char2);
+            //}
+
+            char outChar2;
+
+            if (_wiring.TryGetValue(outChar, out outChar2))
+            {
+                RemoveWiring(outChar, outChar2);
+            }
+
+            if (NumberPairs >= TotalNumberOfPairs)
+            {
+                throw new ArgumentOutOfRangeException($"Cannot set NumberPairs > 20");
+            }
+
+            //NumberPairs++;
             _wiring.Add(char1, char2);
             _wiring.Add(char2, char1);
         }
 
-        public void RemoveWiring(char char1)
+        //public void RemoveWiring(char char1)
+        //{
+        //    if (!_wiring.ContainsKey(char1))
+        //    {
+        //        //throw new ArgumentException("That key doesn't exist");
+        //    }
+
+        //    char char2 = _wiring[char1];
+        //    if (!_wiring.ContainsKey(char2))
+        //    {
+        //        //throw new ArgumentException("That key doesn't exist");
+        //    }
+
+        //    RemoveWiring(char1, char2);
+
+        //    //if (!_wiring.ContainsKey(char1))
+        //    //{
+        //    //    throw new ArgumentException("That key doesn't exist");
+        //    //}
+        //    //NumberPairs--;
+        //    //_wiring.Remove(char1);
+        //}
+
+        public void RemoveWiring(char char1, char char2)
         {
-            if (!_wiring.ContainsKey(char1))
+            char outChar;
+
+            if (_wiring.TryGetValue(char1, out outChar))
             {
-                throw new ArgumentException("That key doesn't exist");
+                if (outChar == char2)
+                    _wiring.Remove(char1);
             }
-            NumberPairs--;
-            _wiring.Remove(char1);
+            //_wiring.Remove(char1);
+            //throw new ArgumentException("That key doesn't exist");
+
+
+            if (_wiring.TryGetValue(char2, out outChar))
+            {
+                if (outChar == char1)
+                    _wiring.Remove(char2);
+                //throw new ArgumentException("That key doesn't exist");
+            }
+            //NumberPairs--;
+
+            
+
+            //_wiring.Remove(char1);
+            //_wiring.Remove(char2);
+
+            
+        }
+
+        public void ResetWiring()
+        {
+            _wiring.Clear();
+            _numberPairs = 0;
         }
     }
 }
