@@ -29,7 +29,7 @@ namespace Components
             _adjacentRotorAdvanceOffset = AdjacentRotorAdvanceOffset;
         }
 
-        public Rotor() : this("BDFHJLCPRTXVZNYEIWGAKMUSQO".ToLower(), false, 0) { }
+        public Rotor() : this(Constants.rotorIII, false, 0) { }
 
         public int Offset
         {
@@ -61,11 +61,12 @@ namespace Components
             return letter;
         }
 
+        // TODO: this function is wrong.
         public char ReverseConvertLetter(char c)
         {
             int i = Array.IndexOf(_wiring, c);
-            char convertedChar = (char)(i + Offset + Convert.ToByte('a'));
-            return convertedChar;
+            //char convertedChar = (char)(i + Offset + Convert.ToByte('a'));
+            return ReverseConvertLetter(i);
         }
 
         public char ReverseConvertLetter(int i)
@@ -113,7 +114,7 @@ namespace Components
         {
             if (Offset == _adjacentRotorAdvanceOffset)
             {
-                AdvanceAdjacentRotor(this, new AdvanceEventArgs { message = "I'm advancing", character = _wiring[22] });
+                AdvanceAdjacentRotor?.Invoke(this, new AdvanceEventArgs { message = "I'm advancing", character = _wiring[22] });
             }
             Offset = (Offset + 1) % 26;
         }
