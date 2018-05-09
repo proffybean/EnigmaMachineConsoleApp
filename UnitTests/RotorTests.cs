@@ -223,7 +223,7 @@ namespace UnitTests
             char letter = rotor.ReverseConvertLetter('j');
 
             // Assert
-            Assert.AreEqual('a', letter);
+            Assert.AreEqual('b', letter);
         }
 
 
